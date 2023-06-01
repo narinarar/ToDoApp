@@ -7,6 +7,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import Model.Model;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 import java.net.URL;
 import java.time.LocalDate;
@@ -22,15 +24,29 @@ public class ToDoController implements Initializable {
     @FXML
     DatePicker datePicker;
     @FXML
+    private Button deleteButton;
+    @FXML
     private ListView<Model> taskListView;
 
     ObservableList<Model> dataModel = FXCollections.observableArrayList();
     @FXML
-    private void butonCalisanKod(ActionEvent e) {
+    private void butonCalisanKod() {
          var newTask = new Model(datePicker.getValue(), explainTextField.getText());
 
          dataModel.add(newTask);
          taskListView.setItems(dataModel);
+    }
+
+    @FXML
+    private void deleteButton(ActionEvent e) {
+        dataModel.remove(taskListView.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    private void textFieldEnter(KeyEvent event) {
+        if(event.getCode() == KeyCode.ENTER) {
+            butonCalisanKod();
+        }
     }
 
 
